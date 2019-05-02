@@ -20,7 +20,7 @@ import javax.swing.table.TableCellRenderer;
 public class sdk extends JFrame{ //MainFrame
 	 public sdk() {
 		   
-	      setTitle("스도쿠");
+	      setTitle("Sudoku");
 	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 	      
 	      Container c = getContentPane();
@@ -58,7 +58,7 @@ public class sdk extends JFrame{ //MainFrame
 	      panel.setVisible(false);
 	      
 	      JTable table_1 = new JTable(9,9) {
-	      public Component prepareRenderer(TableCellRenderer renderer, int row, int column){//table안에 색 변경해주기
+	      public Component prepareRenderer(TableCellRenderer renderer, int row, int column){
 	    	        Component c = super.prepareRenderer(renderer, row, column);
 	    	        Color yellow = new Color(252,242,206);
 	    	        Color white = Color.WHITE;
