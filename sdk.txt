@@ -1,0 +1,171 @@
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.TableCellRenderer;
+
+public class sdk extends JFrame{ //MainFrame
+	 public sdk() {
+		   
+	      setTitle("스도쿠");
+	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+	      
+	      Container c = getContentPane();
+	      c.setLayout(null);
+	      c.setBackground(Color.WHITE);
+	      
+	      JLabel label = new JLabel("WELCOME");
+	      label.setHorizontalAlignment(SwingConstants.CENTER);
+	      label.setSize(224, 200);
+	      label.setFont(new Font("Arial Black", Font.BOLD, 30));
+	      label.setLocation(618, 78);
+	      c.add(label);
+	      
+	      JTextField field = new JTextField("If you want to start game, press the START!");
+	      field.setHorizontalAlignment(SwingConstants.CENTER);
+	      field.setSize(600, 129);
+	      field.setLocation(389, 293);
+	      field.setFont(new Font("Arial Narrow", Font.BOLD, 28));
+	      c.add(field);
+	      
+	      JButton button = new JButton("START");
+	      button.setForeground(Color.RED);
+	      button.setSelectedIcon(null);
+	      button.setBackground(Color.WHITE);
+	      button.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 32));
+	      button.setSize(300, 150);
+	      button.setLocation(560, 563);
+	      c.add(button);
+	      
+	      JPanel panel = new JPanel();
+	      panel.setBorder(new TitledBorder(null, "Sudoku", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	      panel.setBounds(0, 0, 815, 750);
+	      panel.setLayout(null);
+	      c.add(panel);
+	      panel.setVisible(false);
+	      
+	      JTable table_1 = new JTable(9,9) {
+	      public Component prepareRenderer(TableCellRenderer renderer, int row, int column){//table안에 색 변경해주기
+	    	        Component c = super.prepareRenderer(renderer, row, column);
+	    	        Color yellow = new Color(252,242,206);
+	    	        Color white = Color.WHITE;
+	    	        if (!c.getBackground().equals(getSelectionBackground())){
+	                      Color bg = ((row == 3)||(row == 4)||(row==5)||(column==3)||(column==4)||(column==5) ? yellow : white);
+	                      c .setBackground(bg);
+	                      bg = null;
+	                  }
+	                  return c;
+	              }
+	         };
+	         
+	         int[][] arr= {
+	        		 {7,	3,	5,	6,	2,	1,	4,	9,	8},
+	        		 {6,	2,	1,	4,	9,	8,	7,	3,	5},
+	        		 {4,	9,	8,	7,	3,	5,	6,	2,	1},
+	        		 {3,	5,	7,	2,	1,	6,	9,	8,	4},
+	        		 {2,	1,	6,	9,	8,	4,	3,	5,	7},
+	        		 {9,	8,	4,	3,	5,	7,	2,	1,	6},
+	        		 {5,	7,	3,	1,	6,	2,	8,	4,	9},
+	        		 {1,	6,	2,	8,	4,	9,	5,	7,	3},
+	        		 {8,	4,	9,	5,	7,	3,	1,	6,	2}	 
+	         };
+	                 
+	         int[][] arr_init= {
+	        		 {0,	0,	5,	6,	0,	1,	0,	0,	8},
+	        		 {6,	2,	1,	0,	9,	8,	7,	3,	0},
+	        		 {0,	9,	0,	7,	3,	0,	6,	2,	1},
+	        		 {3,	0,	7,	2,	1,	6,	9,	0,	4},
+	        		 {2,	1,	0,	0,	8,	0 ,	0,	5,	7},
+	        		 {0,	0,	4,	3,	0,	7,	2,	1,	0},
+	        		 {5,	0,	3,	0,	6,  0,	8,	4,	9},
+	        		 {1,	6,	2,	0,	4,	9,	5,	7,	0},
+	        		 {0,	0,	9,	0,	7,	0,	1,	0,	0}	 
+	         };
+	         
+	         for(int i=0; i< arr_init.length; i++) {
+	        	 for(int j=0; j<arr_init.length; j++) {
+	        		 if(arr_init[i][j]== 0 ) {
+	        			 continue;
+	        		 } 
+	        		 else table_1.setValueAt(arr_init[i][j], i, j);
+	        	 }
+	         }
+
+	      table_1.setBounds(6, 23, 803, 720);
+	      panel.add(table_1);
+	      table_1.setVisible(true);
+	         table_1.getColumnModel().getColumn(0).setMaxWidth(100); 
+	         table_1.getColumnModel().getColumn(0).setMinWidth(100); 
+	         table_1.getColumnModel().getColumn(0).setWidth(100); 
+	         table_1.setRowHeight(80);
+	      
+	      JButton btnClear = new JButton("Completely Clear :)");
+	      btnClear.setFont(new Font("Arial", Font.PLAIN, 25));
+	      btnClear.addActionListener(new ActionListener(){
+	            public void actionPerformed(ActionEvent e) {
+	            	int count = 0;
+				for(int row = 0; row<9; row++) {
+	                  for(int column = 0; column<9; column++) {
+	                	 Object value =  table_1.getValueAt(row, column);
+	                	  	if((Object)arr[row][column] != value) {
+	                	  		c.setBackground(Color.pink);
+	                	  		table_1.setBackground(Color.pink);
+	                	  		break;
+	               } else  {count += 1;
+	                	  System.out.println(count);}
+	                if (count == 81) {
+	                	System.exit(0);
+	                	 }    
+	                }
+	         }
+				}
+	            });
+	      
+	      btnClear.setBounds(879, 392, 314, 96);
+	      c.add(btnClear);
+	      btnClear.setVisible(false);
+	      
+	      JButton btnExit = new JButton("I want to give up :(");
+	      btnExit.setFont(new Font("Arial", Font.PLAIN, 24));
+	      btnExit.addActionListener(new ActionListener() {
+	      	public void actionPerformed(ActionEvent e) {
+	      		System.exit(0);
+	      	}
+	      });
+	      c.add(btnExit);
+	      btnExit.setBounds(879, 540, 314, 96);
+	      btnExit.setVisible(false);
+	      
+	      button.addMouseListener(new MouseAdapter() {
+		      	@Override
+		      	public void mouseClicked(MouseEvent arg0) {
+		      		label.setVisible(false);
+		      		field.setVisible(false);
+		      		button.setVisible(false);
+		      		panel.setVisible(true);
+		      		btnClear.setVisible(true);
+		      		btnExit.setVisible(true);
+		      	}
+		      }); 
+	      
+	setSize(1500, 1000);
+    setVisible(true);
+	}
+	 
+	public static void main(String[] args) {
+		sdk sudoku = new sdk();
+	}
+}
